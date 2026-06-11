@@ -24,27 +24,28 @@ using System.Windows.Documents;
 using System.Windows.Controls.Primitives;
 using Xceed.Wpf.Toolkit.Core;
 
+
 namespace Xceed.Wpf.Toolkit
-{
+{ 
   public class RichTextBoxFormatBar : Control, IRichTextBoxFormatBar
   {
     #region Members
-    private ComboBox _cmbFontFamilies;
-    private ComboBox _cmbFontSizes;
-    private ColorPicker _cmbFontBackgroundColor;
-    private ColorPicker _cmbFontColor;
+    private ComboBox m_cmbFontFamilies;
+    private ComboBox m_cmbFontSizes;
+    private ColorPicker m_cmbFontBackgroundColor;
+    private ColorPicker m_cmbFontColor;
 
-    private ToggleButton _btnNumbers;
-    private ToggleButton _btnBullets;
-    private ToggleButton _btnBold;
-    private ToggleButton _btnItalic;
-    private ToggleButton _btnUnderline;
-    private ToggleButton _btnAlignLeft;
-    private ToggleButton _btnAlignCenter;
-    private ToggleButton _btnAlignRight;
+    private ToggleButton m_btnNumbers;
+    private ToggleButton m_btnBullets;
+    private ToggleButton m_btnBold;
+    private ToggleButton m_btnItalic;
+    private ToggleButton m_btnUnderline;
+    private ToggleButton m_btnAlignLeft;
+    private ToggleButton m_btnAlignCenter;
+    private ToggleButton m_btnAlignRight;
 
-    private Thumb _dragWidget;
-    private bool _waitingForMouseOver;
+    private Thumb m_dragWidget;
+    private bool m_waitingForMouseOver;
     #endregion
 
     #region Properties
@@ -62,6 +63,20 @@ namespace Xceed.Wpf.Toolkit
                 };
       }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #endregion
 
@@ -83,11 +98,9 @@ namespace Xceed.Wpf.Toolkit
     #region Base Class Overrides
 
 
-
-
     #endregion
 
-    #region Event Hanlders
+    #region Event Handlers
 
     private void FontFamily_SelectionChanged( object sender, SelectionChangedEventArgs e )
     {
@@ -95,8 +108,8 @@ namespace Xceed.Wpf.Toolkit
         return;
 
       var editValue = FontUtilities.GetFontFamily( ( string )e.AddedItems[ 0 ] );
-      ApplyPropertyValueToSelectedText( TextElement.FontFamilyProperty, editValue );
-      _waitingForMouseOver = true;
+      this.ApplyPropertyValueToSelectedText( TextElement.FontFamilyProperty, editValue );
+      m_waitingForMouseOver = true;
     }
 
     private void FontSize_SelectionChanged( object sender, SelectionChangedEventArgs e )
@@ -104,52 +117,52 @@ namespace Xceed.Wpf.Toolkit
       if( e.AddedItems.Count == 0 )
         return;
 
-      ApplyPropertyValueToSelectedText( TextElement.FontSizeProperty, e.AddedItems[ 0 ] );
-      _waitingForMouseOver = true;
+      this.ApplyPropertyValueToSelectedText( TextElement.FontSizeProperty, e.AddedItems[ 0 ] );
+      m_waitingForMouseOver = true;
     }
 
     void FontColor_SelectedColorChanged( object sender, RoutedPropertyChangedEventArgs<Color?> e )
     {
       Color? selectedColor = ( Color? )e.NewValue;
-      ApplyPropertyValueToSelectedText( TextElement.ForegroundProperty, selectedColor.HasValue ? new SolidColorBrush( selectedColor.Value ) : null );
-      _waitingForMouseOver = true;
+      this.ApplyPropertyValueToSelectedText( TextElement.ForegroundProperty, selectedColor.HasValue ? new SolidColorBrush( selectedColor.Value ) : null );
+      m_waitingForMouseOver = true;
     }
 
     private void FontBackgroundColor_SelectedColorChanged( object sender, RoutedPropertyChangedEventArgs<Color?> e )
     {
       Color? selectedColor = ( Color? )e.NewValue;
-      ApplyPropertyValueToSelectedText( TextElement.BackgroundProperty, selectedColor.HasValue ? new SolidColorBrush( selectedColor.Value ) : null );
-      _waitingForMouseOver = true;
+      this.ApplyPropertyValueToSelectedText( TextElement.BackgroundProperty, selectedColor.HasValue ? new SolidColorBrush( selectedColor.Value ) : null );
+      m_waitingForMouseOver = true;
     }
 
     private void Bullets_Clicked( object sender, RoutedEventArgs e )
     {
-      if( BothSelectionListsAreChecked() && ( _btnNumbers != null ) )
+      if( this.BothSelectionListsAreChecked() && ( m_btnNumbers != null ) )
       {
-        _btnNumbers.IsChecked = false;
+        m_btnNumbers.IsChecked = false;
       }
     }
 
     private void Numbers_Clicked( object sender, RoutedEventArgs e )
     {
-      if( BothSelectionListsAreChecked() && ( _btnBullets != null ) )
+      if( this.BothSelectionListsAreChecked() && ( m_btnBullets != null ) )
       {
-        _btnBullets.IsChecked = false;
+        m_btnBullets.IsChecked = false;
       }
     }
 
     private void DragWidget_DragDelta( object sender, DragDeltaEventArgs e )
     {
-      ProcessMove( e );
+      this.ProcessMove( e );
     }
 
     protected override void OnMouseEnter( System.Windows.Input.MouseEventArgs e )
     {
       base.OnMouseEnter( e );
-      _waitingForMouseOver = false;
+      m_waitingForMouseOver = false;
     }
 
-    #endregion //Event Hanlders
+    #endregion //Event Handlers
 
     #region Methods
 
@@ -157,93 +170,92 @@ namespace Xceed.Wpf.Toolkit
     {
       base.OnApplyTemplate();
 
-      if( _dragWidget != null )
+      if( m_dragWidget != null )
       {
-        _dragWidget.DragDelta -= new DragDeltaEventHandler( DragWidget_DragDelta );
+        m_dragWidget.DragDelta -= new DragDeltaEventHandler( this.DragWidget_DragDelta );
       }
 
-      if( _cmbFontFamilies != null )
+      if( m_cmbFontFamilies != null )
       {
-        _cmbFontFamilies.SelectionChanged -= new SelectionChangedEventHandler( FontFamily_SelectionChanged );
+        m_cmbFontFamilies.SelectionChanged -= new SelectionChangedEventHandler( this.FontFamily_SelectionChanged );
       }
 
-      if( _cmbFontSizes != null )
+      if( m_cmbFontSizes != null )
       {
-        _cmbFontSizes.SelectionChanged -= new SelectionChangedEventHandler( FontSize_SelectionChanged );
+        m_cmbFontSizes.SelectionChanged -= new SelectionChangedEventHandler( this.FontSize_SelectionChanged );
       }
 
-      if( _btnBullets != null )
+      if( m_btnBullets != null )
       {
-        _btnBullets.Click -= new RoutedEventHandler( Bullets_Clicked );
+        m_btnBullets.Click -= new RoutedEventHandler( this.Bullets_Clicked );
       }
 
-      if( _btnNumbers != null )
+      if( m_btnNumbers != null )
       {
-        _btnNumbers.Click -= new RoutedEventHandler( Numbers_Clicked );
+        m_btnNumbers.Click -= new RoutedEventHandler( this.Numbers_Clicked );
       }
 
-      if( _cmbFontBackgroundColor != null )
+      if( m_cmbFontBackgroundColor != null )
       {
-        _cmbFontBackgroundColor.SelectedColorChanged -= new RoutedPropertyChangedEventHandler<Color?>( FontBackgroundColor_SelectedColorChanged );
+        m_cmbFontBackgroundColor.SelectedColorChanged -= new RoutedPropertyChangedEventHandler<Color?>( this.FontBackgroundColor_SelectedColorChanged );
       }
 
-      if( _cmbFontColor != null )
+      if( m_cmbFontColor != null )
       {
-        _cmbFontColor.SelectedColorChanged -= new RoutedPropertyChangedEventHandler<Color?>( FontColor_SelectedColorChanged );
+        m_cmbFontColor.SelectedColorChanged -= new RoutedPropertyChangedEventHandler<Color?>( this.FontColor_SelectedColorChanged );
       }
 
-      this.GetTemplateComponent( ref _cmbFontFamilies, "_cmbFontFamilies" );
-      this.GetTemplateComponent( ref _cmbFontSizes, "_cmbFontSizes" );
-      this.GetTemplateComponent( ref _cmbFontBackgroundColor, "_cmbFontBackgroundColor" );
-      this.GetTemplateComponent( ref _cmbFontColor, "_cmbFontColor" );
-      this.GetTemplateComponent( ref _btnNumbers, "_btnNumbers" );
-      this.GetTemplateComponent( ref _btnBullets, "_btnBullets" );
-      this.GetTemplateComponent( ref _btnBold, "_btnBold" );
-      this.GetTemplateComponent( ref _btnItalic, "_btnItalic" );
-      this.GetTemplateComponent( ref _btnUnderline, "_btnUnderline" );
-      this.GetTemplateComponent( ref _btnAlignLeft, "_btnAlignLeft" );
-      this.GetTemplateComponent( ref _btnAlignCenter, "_btnAlignCenter" );
-      this.GetTemplateComponent( ref _btnAlignRight, "_btnAlignRight" );
-      this.GetTemplateComponent( ref _dragWidget, "_dragWidget" );
+      this.GetTemplateComponent( ref m_cmbFontFamilies, "_cmbFontFamilies" );
+      this.GetTemplateComponent( ref m_cmbFontSizes, "_cmbFontSizes" );
+      this.GetTemplateComponent( ref m_cmbFontBackgroundColor, "_cmbFontBackgroundColor" );
+      this.GetTemplateComponent( ref m_cmbFontColor, "_cmbFontColor" );
+      this.GetTemplateComponent( ref m_btnNumbers, "_btnNumbers" );
+      this.GetTemplateComponent( ref m_btnBullets, "_btnBullets" );
+      this.GetTemplateComponent( ref m_btnBold, "_btnBold" );
+      this.GetTemplateComponent( ref m_btnItalic, "_btnItalic" );
+      this.GetTemplateComponent( ref m_btnUnderline, "_btnUnderline" );
+      this.GetTemplateComponent( ref m_btnAlignLeft, "_btnAlignLeft" );
+      this.GetTemplateComponent( ref m_btnAlignCenter, "_btnAlignCenter" );
+      this.GetTemplateComponent( ref m_btnAlignRight, "_btnAlignRight" );
+      this.GetTemplateComponent( ref m_dragWidget, "_dragWidget" );
 
-      if( _dragWidget != null )
+      if( m_dragWidget != null )
       {
-        _dragWidget.DragDelta += new DragDeltaEventHandler( DragWidget_DragDelta );
+        m_dragWidget.DragDelta += new DragDeltaEventHandler( DragWidget_DragDelta );
       }
 
-      if( _cmbFontFamilies != null )
+      if( m_cmbFontFamilies != null )
       {
-        _cmbFontFamilies.ItemsSource = FontUtilities.Families.OrderBy( fontFamily => FontUtilities.GetFontFamilyName( fontFamily ) ).Select( fontFamily => FontUtilities.GetFontFamilyName( fontFamily ) );
-        _cmbFontFamilies.SelectionChanged += new SelectionChangedEventHandler( FontFamily_SelectionChanged );
+        m_cmbFontFamilies.ItemsSource = FontUtilities.Families.OrderBy( fontFamily => FontUtilities.GetFontFamilyName( fontFamily ) ).Select( fontFamily => FontUtilities.GetFontFamilyName( fontFamily ) );
+        m_cmbFontFamilies.SelectionChanged += new SelectionChangedEventHandler( this.FontFamily_SelectionChanged );
       }
 
-      if( _cmbFontSizes != null )
+      if( m_cmbFontSizes != null )
       {
-        _cmbFontSizes.ItemsSource = FontSizes;
-        _cmbFontSizes.SelectionChanged += new SelectionChangedEventHandler( FontSize_SelectionChanged );
+        m_cmbFontSizes.ItemsSource = FontSizes;
+        m_cmbFontSizes.SelectionChanged += new SelectionChangedEventHandler( this.FontSize_SelectionChanged );
       }
 
-      if( _btnBullets != null )
+      if( m_btnBullets != null )
       {
-        _btnBullets.Click += new RoutedEventHandler( Bullets_Clicked );
+        m_btnBullets.Click += new RoutedEventHandler( this.Bullets_Clicked );
       }
 
-      if( _btnNumbers != null )
+      if( m_btnNumbers != null )
       {
-        _btnNumbers.Click += new RoutedEventHandler( Numbers_Clicked );
+        m_btnNumbers.Click += new RoutedEventHandler( this.Numbers_Clicked );
       }
 
-      if( _cmbFontBackgroundColor != null )
+      if( m_cmbFontBackgroundColor != null )
       {
-        _cmbFontBackgroundColor.SelectedColorChanged += new RoutedPropertyChangedEventHandler<Color?>( FontBackgroundColor_SelectedColorChanged );
+        m_cmbFontBackgroundColor.SelectedColorChanged += new RoutedPropertyChangedEventHandler<Color?>( this.FontBackgroundColor_SelectedColorChanged );
       }
 
-      if( _cmbFontColor != null )
+      if( m_cmbFontColor != null )
       {
-        _cmbFontColor.SelectedColorChanged += new RoutedPropertyChangedEventHandler<Color?>( FontColor_SelectedColorChanged );
+        m_cmbFontColor.SelectedColorChanged += new RoutedPropertyChangedEventHandler<Color?>( FontColor_SelectedColorChanged );
       }
 
-      // Update the ComboBoxes when changing themes.
       this.Update();
     }
 
@@ -256,21 +268,21 @@ namespace Xceed.Wpf.Toolkit
 
     private void UpdateToggleButtonState()
     {
-      UpdateItemCheckedState( _btnBold, TextElement.FontWeightProperty, FontWeights.Bold );
-      UpdateItemCheckedState( _btnItalic, TextElement.FontStyleProperty, FontStyles.Italic );
-      UpdateItemCheckedState( _btnUnderline, Inline.TextDecorationsProperty, TextDecorations.Underline );
+      this.UpdateItemCheckedState( m_btnBold, TextElement.FontWeightProperty, FontWeights.Bold );
+      this.UpdateItemCheckedState( m_btnItalic, TextElement.FontStyleProperty, FontStyles.Italic );
+      this.UpdateItemCheckedState( m_btnUnderline, Inline.TextDecorationsProperty, TextDecorations.Underline );
 
-      UpdateItemCheckedState( _btnAlignLeft, Paragraph.TextAlignmentProperty, TextAlignment.Left );
-      UpdateItemCheckedState( _btnAlignCenter, Paragraph.TextAlignmentProperty, TextAlignment.Center );
-      UpdateItemCheckedState( _btnAlignRight, Paragraph.TextAlignmentProperty, TextAlignment.Right );
+      this.UpdateItemCheckedState( m_btnAlignLeft, Paragraph.TextAlignmentProperty, TextAlignment.Left );
+      this.UpdateItemCheckedState( m_btnAlignCenter, Paragraph.TextAlignmentProperty, TextAlignment.Center );
+      this.UpdateItemCheckedState( m_btnAlignRight, Paragraph.TextAlignmentProperty, TextAlignment.Right );
     }
 
     void UpdateItemCheckedState( ToggleButton button, DependencyProperty formattingProperty, object expectedValue )
     {
       object currentValue = DependencyProperty.UnsetValue;
-      if( ( Target != null ) && ( Target.Selection != null ) )
+      if( ( this.Target != null ) && ( this.Target.Selection != null ) )
       {
-        currentValue = Target.Selection.GetPropertyValue( formattingProperty );
+        currentValue = this.Target.Selection.GetPropertyValue( formattingProperty );
       }
 
       if( currentValue == DependencyProperty.UnsetValue )
@@ -287,44 +299,44 @@ namespace Xceed.Wpf.Toolkit
     private void UpdateSelectedFontFamily()
     {
       object value = DependencyProperty.UnsetValue;
-      if( ( Target != null ) && ( Target.Selection != null ) )
+      if( ( this.Target != null ) && ( this.Target.Selection != null ) )
       {
-        value = Target.Selection.GetPropertyValue( TextElement.FontFamilyProperty );
+        value = this.Target.Selection.GetPropertyValue( TextElement.FontFamilyProperty );
       }
 
       if( value == DependencyProperty.UnsetValue )
         return;
 
       FontFamily currentFontFamily = ( FontFamily )value;
-      if( ( currentFontFamily != null ) && ( _cmbFontFamilies != null ) )
+      if( ( currentFontFamily != null ) && ( m_cmbFontFamilies != null ) )
       {
-        _cmbFontFamilies.SelectedItem = FontUtilities.GetFontFamilyName( currentFontFamily );
+        m_cmbFontFamilies.SelectedItem = FontUtilities.GetFontFamilyName( currentFontFamily );
       }
     }
 
     private void UpdateSelectedFontSize()
     {
       object value = DependencyProperty.UnsetValue;
-      if( ( Target != null ) && ( Target.Selection != null ) )
+      if( ( this.Target != null ) && ( this.Target.Selection != null ) )
       {
-        value = Target.Selection.GetPropertyValue( TextElement.FontSizeProperty );
+        value = this.Target.Selection.GetPropertyValue( TextElement.FontSizeProperty );
       }
 
       if( value == DependencyProperty.UnsetValue )
         return;
 
-      if( _cmbFontSizes != null )
+      if( m_cmbFontSizes != null )
       {
-        _cmbFontSizes.SelectedValue = value;
+        m_cmbFontSizes.SelectedValue = value;
       }
     }
 
     private void UpdateFontColor()
     {
       object value = DependencyProperty.UnsetValue;
-      if( ( Target != null ) && ( Target.Selection != null ) )
+      if( ( this.Target != null ) && ( this.Target.Selection != null ) )
       {
-        value = Target.Selection.GetPropertyValue( TextElement.ForegroundProperty );
+        value = this.Target.Selection.GetPropertyValue( TextElement.ForegroundProperty );
       }
 
       if( value == DependencyProperty.UnsetValue )
@@ -333,18 +345,18 @@ namespace Xceed.Wpf.Toolkit
       Color? currentColor = ( ( value == null )
                               ? null
                               : ( Color? )( ( SolidColorBrush )value ).Color );
-      if( _cmbFontColor != null )
+      if( m_cmbFontColor != null )
       {
-        _cmbFontColor.SelectedColor = currentColor;
+        m_cmbFontColor.SelectedColor = currentColor;
       }
     }
 
     private void UpdateFontBackgroundColor()
     {
       object value = DependencyProperty.UnsetValue;
-      if( ( Target != null ) && ( Target.Selection != null ) )
+      if( ( this.Target != null ) && ( this.Target.Selection != null ) )
       {
-        value = Target.Selection.GetPropertyValue( TextElement.BackgroundProperty );
+        value = this.Target.Selection.GetPropertyValue( TextElement.BackgroundProperty );
       }
 
       if( value == DependencyProperty.UnsetValue )
@@ -353,67 +365,67 @@ namespace Xceed.Wpf.Toolkit
       Color? currentColor = ( ( value == null )
                               ? null
                               : ( Color? )( ( SolidColorBrush )value ).Color );
-      if( _cmbFontBackgroundColor != null )
+      if( m_cmbFontBackgroundColor != null )
       {
-        _cmbFontBackgroundColor.SelectedColor = currentColor;
+        m_cmbFontBackgroundColor.SelectedColor = currentColor;
       }
     }
 
     private void UpdateSelectionListType()
     {
-      if( ( _btnNumbers == null ) || ( _btnBullets == null ) )
+      if( ( m_btnNumbers == null ) || ( m_btnBullets == null ) )
         return;
 
       //uncheck both
-      _btnBullets.IsChecked = false;
-      _btnNumbers.IsChecked = false;
+      m_btnBullets.IsChecked = false;
+      m_btnNumbers.IsChecked = false;
 
-      Paragraph startParagraph = ( ( Target != null ) && ( Target.Selection != null ) )
-                                  ? Target.Selection.Start.Paragraph
+      Paragraph startParagraph = ( ( this.Target != null ) && ( this.Target.Selection != null ) )
+                                  ? this.Target.Selection.Start.Paragraph
                                   : null;
-      Paragraph endParagraph = ( ( Target != null ) && ( Target.Selection != null ) )
-                                ? Target.Selection.End.Paragraph
+      Paragraph endParagraph = ( ( this.Target != null ) && ( this.Target.Selection != null ) )
+                                ? this.Target.Selection.End.Paragraph
                                 : null;
       if( startParagraph != null && endParagraph != null && ( startParagraph.Parent is ListItem ) && ( endParagraph.Parent is ListItem ) && object.ReferenceEquals( ( ( ListItem )startParagraph.Parent ).List, ( ( ListItem )endParagraph.Parent ).List ) )
       {
         TextMarkerStyle markerStyle = ( ( ListItem )startParagraph.Parent ).List.MarkerStyle;
-        if( markerStyle == TextMarkerStyle.Disc ) //bullets
+        if( markerStyle == TextMarkerStyle.Disc )
         {
-          _btnBullets.IsChecked = true;
+          m_btnBullets.IsChecked = true;
         }
-        else if( markerStyle == TextMarkerStyle.Decimal ) //numbers
+        else if( markerStyle == TextMarkerStyle.Decimal )
         {
-          _btnNumbers.IsChecked = true;
+          m_btnNumbers.IsChecked = true;
         }
       }
     }
 
     private bool BothSelectionListsAreChecked()
     {
-      return ( ( _btnBullets != null ) && ( _btnBullets.IsChecked == true ) )
-          && ( ( _btnNumbers != null ) && ( _btnNumbers.IsChecked == true ) );
+      return ( ( m_btnBullets != null ) && ( m_btnBullets.IsChecked == true ) )
+          && ( ( m_btnNumbers != null ) && ( m_btnNumbers.IsChecked == true ) );
     }
 
     void ApplyPropertyValueToSelectedText( DependencyProperty formattingProperty, object value )
     {
-      if( ( Target == null ) || ( Target.Selection == null ) )
+      if( ( this.Target == null ) || ( this.Target.Selection == null ) )
         return;
 
       SolidColorBrush solidColorBrush = value as SolidColorBrush;
       if( ( solidColorBrush != null ) && solidColorBrush.Color.Equals( Colors.Transparent ) )
       {
-        Target.Selection.ApplyPropertyValue( formattingProperty, null );
+        this.Target.Selection.ApplyPropertyValue( formattingProperty, null );
       }
       else
       {
-        Target.Selection.ApplyPropertyValue( formattingProperty, value );
+        this.Target.Selection.ApplyPropertyValue( formattingProperty, value );
       }
     }
 
     private void ProcessMove( DragDeltaEventArgs e )
     {
-      AdornerLayer layer = AdornerLayer.GetAdornerLayer( Target );
-      UIElementAdorner<Control> adorner = layer.GetAdorners( Target ).OfType<UIElementAdorner<Control>>().First();
+      AdornerLayer layer = AdornerLayer.GetAdornerLayer( this.Target );
+      UIElementAdorner<Control> adorner = layer.GetAdorners( this.Target ).OfType<UIElementAdorner<Control>>().First();
       adorner.SetOffsets( adorner.OffsetLeft + e.HorizontalChange, adorner.OffsetTop + e.VerticalChange );
     }
 
@@ -423,17 +435,11 @@ namespace Xceed.Wpf.Toolkit
 
     #region Target
 
-    public static readonly DependencyProperty TargetProperty = DependencyProperty.Register( "Target", typeof( global::System.Windows.Controls.RichTextBox ), typeof( RichTextBoxFormatBar ), new PropertyMetadata( null, OnRichTextBoxPropertyChanged ) );
+    public static readonly DependencyProperty TargetProperty = DependencyProperty.Register( nameof( Target ), typeof( global::System.Windows.Controls.RichTextBox ), typeof( RichTextBoxFormatBar ), new PropertyMetadata( null, OnRichTextBoxPropertyChanged ) );
     public global::System.Windows.Controls.RichTextBox Target
     {
-      get
-      {
-        return ( global::System.Windows.Controls.RichTextBox )GetValue( TargetProperty );
-      }
-      set
-      {
-        SetValue( TargetProperty, value );
-      }
+      get { return ( global::System.Windows.Controls.RichTextBox )GetValue( TargetProperty ); }
+      set { SetValue( TargetProperty, value ); }
     }
 
     private static void OnRichTextBoxPropertyChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
@@ -447,22 +453,22 @@ namespace Xceed.Wpf.Toolkit
     {
       get
       {
-        return ( ( ( _cmbFontFamilies != null ) && _cmbFontFamilies.IsDropDownOpen )
-              || ( ( _cmbFontSizes != null ) && _cmbFontSizes.IsDropDownOpen )
-              || ( ( _cmbFontBackgroundColor != null ) && _cmbFontBackgroundColor.IsOpen )
-              || ( ( _cmbFontColor != null ) && _cmbFontColor.IsOpen )
-              || _waitingForMouseOver );
+        return ( ( ( m_cmbFontFamilies != null ) && m_cmbFontFamilies.IsDropDownOpen )
+              || ( ( m_cmbFontSizes != null ) && m_cmbFontSizes.IsDropDownOpen )
+              || ( ( m_cmbFontBackgroundColor != null ) && m_cmbFontBackgroundColor.IsOpen )
+              || ( ( m_cmbFontColor != null ) && m_cmbFontColor.IsOpen )
+              || m_waitingForMouseOver );
       }
     }
 
     public void Update()
     {
-      UpdateToggleButtonState();
-      UpdateSelectedFontFamily();
-      UpdateSelectedFontSize();
-      UpdateFontColor();
-      UpdateFontBackgroundColor();
-      UpdateSelectionListType();
+      this.UpdateToggleButtonState();
+      this.UpdateSelectedFontFamily();
+      this.UpdateSelectedFontSize();
+      this.UpdateFontColor();
+      this.UpdateFontBackgroundColor();
+      this.UpdateSelectionListType();
     }
 
     #endregion

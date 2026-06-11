@@ -352,9 +352,6 @@ namespace Xceed.Wpf.Toolkit.Primitives
 
     private void SetActiveWindow( WindowControl windowControl )
     {
-      if( windowControl.IsActive )
-        return;
-
       foreach( WindowControl window in this.Children )
       {
         window.SetIsActiveInternal( false );

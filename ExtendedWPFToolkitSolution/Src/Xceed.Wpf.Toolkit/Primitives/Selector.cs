@@ -911,6 +911,7 @@ namespace Xceed.Wpf.Toolkit.Primitives
 
     private void RemoveUnavailableSelectedItems()
     {
+
       _ignoreSelectedItemsCollectionChanged++;
       HashSet<object> hash = new HashSet<object>( ItemsCollection.Cast<object>() );
 

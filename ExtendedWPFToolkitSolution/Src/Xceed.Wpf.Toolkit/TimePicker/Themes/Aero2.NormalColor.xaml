@@ -20,6 +20,7 @@
                     xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes"
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core"
                     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
@@ -46,7 +47,7 @@
         <ControlTemplate TargetType="ToggleButton">
           <Grid SnapsToDevicePixels="True">
             <chrome:ButtonChrome x:Name="ToggleButtonChrome"
-                                 CornerRadius="0"
+                                 CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius}"
                                  RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TimePicker}}"
                                  RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TimePicker}}"
                                  RenderMouseOver="{TemplateBinding IsMouseOver}"
@@ -98,6 +99,8 @@
             Value="Center" />
     <Setter Property="TextAlignment"
             Value="Right" />
+    <Setter Property="CornerRadius"
+            Value="0" />
     <Setter Property="ButtonSpinnerUpContentTemplate"
             Value="{StaticResource IncreaseGlyphNormalKey}" />
     <Setter Property="ButtonSpinnerDownContentTemplate"
@@ -138,11 +141,12 @@
                                  SpinnerDownDisabledContentTemplate="{TemplateBinding ButtonSpinnerDownDisabledContentTemplate}"
                                  AllowSpin="{TemplateBinding AllowSpin}"
                                  ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
-                                 ShowSpinner="{TemplateBinding ShowButtonSpinner}">
+                                 ShowSpinner="{TemplateBinding ShowButtonSpinner}"
+                                 CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius, Converter={conv:CornerRadiusReplacementConverter Auto, 0, 0, Auto}}">
               <local:WatermarkTextBox x:Name="PART_TextBox"
                                       BorderThickness="0"
                                       Background="Transparent"
-                                      CaretBrush="{Binding CaretBrush, RelativeSource={RelativeSource TemplatedParent}}" 
+                                      CaretBrush="{Binding CaretBrush, RelativeSource={RelativeSource TemplatedParent}}"
                                       FontFamily="{TemplateBinding FontFamily}"
                                       FontSize="{TemplateBinding FontSize}"
                                       FontStretch="{TemplateBinding FontStretch}"
@@ -166,6 +170,7 @@
             </local:ButtonSpinner>
             <ToggleButton x:Name="_timePickerToggleButton"
                           Grid.Column="1"
+                          core:AppearanceProperties.OuterCornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius, Converter={conv:CornerRadiusReplacementConverter 0, Auto, Auto, 0}}"
                           Width="{Binding DropDownButtonWidth, RelativeSource={RelativeSource TemplatedParent}}"
                           Height="{Binding DropDownButtonHeight, RelativeSource={RelativeSource TemplatedParent}}"
                           Background="White"
@@ -209,6 +214,12 @@
             </Popup>
           </Grid>
           <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ShowDropDownButton}"
+                         Value="False">
+              <Setter TargetName="PART_Spinner"
+                      Property="CornerRadius"
+                      Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius}" />
+            </DataTrigger>
             <Trigger Property="IsMouseOver"
                      Value="True">
               <Setter Property="BorderBrush"

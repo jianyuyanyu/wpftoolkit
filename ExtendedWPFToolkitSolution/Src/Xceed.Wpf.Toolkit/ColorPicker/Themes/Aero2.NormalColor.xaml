@@ -19,6 +19,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
                     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core"
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes">
@@ -133,8 +134,10 @@
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
 
-              <Border Background="{TemplateBinding Background}"
+              <Border x:Name="border"
+                      Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
+                      CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius, Converter={conv:CornerRadiusReplacementConverter Auto,0,0,Auto}}"
                       BorderThickness="{TemplateBinding BorderThickness}"
                       Padding="{TemplateBinding Padding}"
                       SnapsToDevicePixels="True">
@@ -147,7 +150,7 @@
 
               <chrome:ButtonChrome x:Name="ToggleButtonChrome"
                                    Grid.Column="1"
-                                   CornerRadius="0"
+                                   CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius, Converter={conv:CornerRadiusReplacementConverter 0,Auto,Auto,0}}"
                                    Visibility="{Binding ShowDropDownButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}, Converter={StaticResource BooleanToVisibilityConverter}}"
                                    RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}}"
                                    RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}}"
@@ -170,6 +173,12 @@
 
           </Grid>
           <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding ShowDropDownButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}}"
+                         Value="False">
+              <Setter TargetName="border"
+                      Property="CornerRadius"
+                      Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}, Path=CornerRadius}" />
+            </DataTrigger>
             <Trigger Property="IsEnabled"
                      Value="False">
               <Setter Property="Fill"
@@ -253,7 +262,7 @@
                         Margin="{TemplateBinding Padding}"
                         RecognizesAccessKey="True"
                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
     </Grid>
     <ControlTemplate.Triggers>
       <MultiDataTrigger>
@@ -296,15 +305,17 @@
     <Setter Property="MaxDropDownWidth"
             Value="250" />
     <Setter Property="HeaderBackground"
-            Value="AliceBlue"/>
+            Value="AliceBlue" />
     <Setter Property="DropDownBackground"
-            Value="{StaticResource PanelBackgroundBrush}"/>
+            Value="{StaticResource PanelBackgroundBrush}" />
     <Setter Property="DropDownBorderBrush"
             Value="{StaticResource PopupDarkBorderBrush}" />
     <Setter Property="DropDownBorderThickness"
             Value="1" />
+    <Setter Property="CornerRadius"
+            Value="0" />
     <Setter Property="TabBackground"
-            Value="#FFF0F0F0"/>
+            Value="#FFF0F0F0" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:ColorPicker}">
@@ -320,7 +331,8 @@
                           Padding="{TemplateBinding Padding}"
                           IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                           IsHitTestVisible="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolConverter}}"
-                          Style="{TemplateBinding ButtonStyle}">
+                          Style="{TemplateBinding ButtonStyle}"
+                          core:AppearanceProperties.OuterCornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
               <Grid Margin="2">
                 <ContentControl x:Name="ColorOnly"
                                 Style="{StaticResource ColorDisplayStyle}" />

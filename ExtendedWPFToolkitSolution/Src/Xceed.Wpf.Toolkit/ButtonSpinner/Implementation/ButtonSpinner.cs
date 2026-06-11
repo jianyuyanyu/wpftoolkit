@@ -264,6 +264,25 @@ namespace Xceed.Wpf.Toolkit
 
     #endregion //ShowSpinner
 
+    #region CornerRadius
+
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register( nameof( CornerRadius ), typeof( CornerRadius ), typeof( ButtonSpinner ), new UIPropertyMetadata( new CornerRadius() ) );
+
+    public CornerRadius CornerRadius
+    {
+      get
+      {
+        return ( CornerRadius )GetValue( CornerRadiusProperty );
+      }
+      set
+      {
+        SetValue( CornerRadiusProperty, value );
+      }
+    }
+
+    #endregion //CornerRadius
+
+
     #endregion //Properties
 
     #region Private Properties

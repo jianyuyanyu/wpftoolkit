@@ -18,6 +18,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core"
                     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes">
@@ -173,8 +174,10 @@
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
 
-              <Border Background="{TemplateBinding Background}"
+              <Border x:Name="border"
+                      Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
+                      CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius, Converter={conv:CornerRadiusReplacementConverter Auto,0,0,Auto}}"
                       BorderThickness="{TemplateBinding BorderThickness}"
                       Padding="{TemplateBinding Padding}"
                       SnapsToDevicePixels="True">
@@ -187,7 +190,7 @@
 
               <chrome:ButtonChrome x:Name="ToggleButtonChrome"
                                    Grid.Column="1"
-                                   CornerRadius="0,2.75,2.75,0"
+                                   CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius, Converter={conv:CornerRadiusReplacementConverter 0,Auto,Auto,0}}"
                                    Visibility="{Binding ShowDropDownButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}, Converter={StaticResource BooleanToVisibilityConverter}}"
                                    RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}}"
                                    RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}}"
@@ -210,6 +213,12 @@
 
           </Grid>
           <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding ShowDropDownButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}}"
+                         Value="False">
+              <Setter TargetName="border"
+                      Property="CornerRadius"
+                      Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ColorPicker}, Path=CornerRadius}" />
+            </DataTrigger>
             <Trigger Property="IsEnabled"
                      Value="False">
               <Setter Property="Fill"
@@ -327,6 +336,8 @@
             Value="Stretch" />
     <Setter Property="VerticalContentAlignment"
             Value="Center" />
+    <Setter Property="CornerRadius"
+            Value="2.75" />
     <Setter Property="MaxDropDownWidth"
             Value="250" />
     <Setter Property="HeaderBackground"
@@ -334,7 +345,7 @@
     <Setter Property="DropDownBackground">
       <Setter.Value>
         <LinearGradientBrush EndPoint="0.5,1"
-                              StartPoint="0.5,0">
+                             StartPoint="0.5,0">
           <GradientStop Color="#FFFAFBFB"
                         Offset="0" />
           <GradientStop Color="#FFF4F4F4"
@@ -363,7 +374,8 @@
                           Padding="{TemplateBinding Padding}"
                           IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                           IsHitTestVisible="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolConverter}}"
-                          Style="{TemplateBinding ButtonStyle}">
+                          Style="{TemplateBinding ButtonStyle}"
+                          core:AppearanceProperties.OuterCornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
               <Grid Margin="2">
                 <ContentControl x:Name="ColorOnly"
                                 Style="{StaticResource ColorDisplayStyle}" />
@@ -379,7 +391,7 @@
                                     BorderThickness="1"
                                     BorderBrush="#FFC9CACA" />
                     <TextBlock Text="{Binding SelectedColorText, RelativeSource={RelativeSource TemplatedParent}}"
-                               VerticalAlignment="Center" >
+                               VerticalAlignment="Center">
                     </TextBlock>
                   </StackPanel>
                 </Border>
@@ -441,12 +453,12 @@
                                      Background="{TemplateBinding HeaderBackground}"
                                      Foreground="{TemplateBinding HeaderForeground}"
                                      Padding="2"
-                                     Margin="0,0,0,1" >
+                                     Margin="0,0,0,1">
                           </TextBlock>
                           <ListBox x:Name="PART_AvailableColors"
                                    Grid.Row="1"
                                    ItemsSource="{Binding AvailableColors, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Style="{StaticResource ColorListStyle}" >
+                                   Style="{StaticResource ColorListStyle}">
                           </ListBox>
                         </Grid>
                       </Grid>
@@ -463,12 +475,12 @@
                                      Background="{TemplateBinding HeaderBackground}"
                                      Foreground="{TemplateBinding HeaderForeground}"
                                      Padding="2"
-                                     Margin="0,1,0,1" >
+                                     Margin="0,1,0,1">
                           </TextBlock>
                           <ListBox x:Name="PART_StandardColors"
                                    Grid.Row="1"
                                    ItemsSource="{Binding StandardColors, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Style="{StaticResource ColorListStyle}" >
+                                   Style="{StaticResource ColorListStyle}">
                           </ListBox>
                         </Grid>
                       </Grid>
@@ -486,12 +498,12 @@
                                      Background="{TemplateBinding HeaderBackground}"
                                      Foreground="{TemplateBinding HeaderForeground}"
                                      Padding="2"
-                                     Margin="0,1,0,1" >
+                                     Margin="0,1,0,1">
                           </TextBlock>
                           <ListBox x:Name="PART_RecentColors"
                                    Grid.Row="1"
                                    ItemsSource="{Binding RecentColors, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Style="{StaticResource ColorListStyle}" >
+                                   Style="{StaticResource ColorListStyle}">
                           </ListBox>
                         </Grid>
                       </Grid>

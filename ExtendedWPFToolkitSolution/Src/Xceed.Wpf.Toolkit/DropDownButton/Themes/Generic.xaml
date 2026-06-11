@@ -60,6 +60,8 @@
             Value="1" />
     <Setter Property="IsTabStop"
             Value="False" />
+    <Setter Property="CornerRadius"
+            Value="2.75" />
     <Setter Property="HorizontalContentAlignment"
             Value="Center" />
     <Setter Property="VerticalContentAlignment"
@@ -92,7 +94,7 @@
                                      Foreground="{TemplateBinding Foreground}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                     CornerRadius="2.75"
+                                     CornerRadius="{TemplateBinding CornerRadius}"
                                      RenderChecked="{TemplateBinding IsOpen}"
                                      RenderEnabled="{TemplateBinding IsEnabled}"
                                      RenderMouseOver="{Binding IsMouseOver, ElementName=PART_DropDownButton}"

@@ -82,8 +82,8 @@
                    Grid.Column="1"
                    VerticalAlignment="Center"
                    Source="{TemplateBinding CaptionIcon}"
-                   MaxWidth="15"
-                   MaxHeight="15"
+                   MaxWidth="17"
+                   MaxHeight="17"
                    Margin="5,2,0,2">
             </Image>
             <Grid x:Name="Title"

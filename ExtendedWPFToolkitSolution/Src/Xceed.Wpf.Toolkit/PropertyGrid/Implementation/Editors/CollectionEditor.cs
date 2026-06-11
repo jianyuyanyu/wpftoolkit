@@ -78,6 +78,8 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid.Editors
           if( propertyGrid != null )
           {
             propertyGrid.RaiseEvent( new PropertyValueChangedEventArgs( PropertyGrid.PropertyValueChangedEvent, propertyItem, null, propertyItem.Instance ) );
+
+            propertyItem.UpdateValidation();
           }
         }
       }

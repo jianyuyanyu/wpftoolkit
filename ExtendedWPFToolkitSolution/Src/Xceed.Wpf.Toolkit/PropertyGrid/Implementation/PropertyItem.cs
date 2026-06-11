@@ -242,13 +242,18 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
         ContainerHelperBase.SetIsGenerated( editor, true );
         this.Editor = editor;
 
-        //Update Source of binding and Validation of PropertyItem to update
-        var be = this.GetBindingExpression( PropertyItem.ValueProperty );
-        if( be != null )
-        {
-          be.UpdateSource();
-          this.SetRedInvalidBorder( be );
-        }
+        this.UpdateValidation();
+      }
+    }
+
+    internal void UpdateValidation()
+    {
+      //Update Source of binding and Validation of PropertyItem to update
+      var be = this.GetBindingExpression( PropertyItem.ValueProperty );
+      if( be != null )
+      {
+        be.UpdateSource();
+        this.SetRedInvalidBorder( be );
       }
     }
 

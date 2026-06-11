@@ -1661,6 +1661,14 @@ namespace Xceed.Wpf.AvalonDock
           newFW.Top = paneForExtensions.FloatingTop;
           newFW.Width = paneForExtensions.FloatingWidth;
           newFW.Height = paneForExtensions.FloatingHeight;
+
+          foreach( var children in paneForExtensions.Children )
+          {
+            if( children is LayoutAnchorable layoutAnchorable )
+            {
+              layoutAnchorable.IsFloating = true;
+            }
+          }
         }
 
         newFW.ShowInTaskbar = false;

@@ -29,12 +29,11 @@ namespace Xceed.Wpf.Toolkit
   {
     #region Members
 
-    private global::System.Windows.Controls.RichTextBox _richTextBox;
-    private UIElementAdorner<Control> _adorner;
-    private IRichTextBoxFormatBar _toolbar;
-    private Window _parentWindow;
-
-    private const double _hideAdornerDistance = 150d;
+    private global::System.Windows.Controls.RichTextBox m_richTextBox;
+    private UIElementAdorner<Control> m_adorner;
+    private IRichTextBoxFormatBar m_toolbar;
+    private Window m_parentWindow;
+    private const double m_hideAdornerDistance = 150d;
 
     #endregion //Members
 
@@ -68,11 +67,12 @@ namespace Xceed.Wpf.Toolkit
     {
       get
       {
-        return _adorner.Visibility == Visibility.Visible;
+        return m_adorner.Visibility == Visibility.Visible;
       }
     }
 
-    #endregion //Properties
+
+#endregion //Properties
 
     #region Event Handlers
 
@@ -80,59 +80,66 @@ namespace Xceed.Wpf.Toolkit
     {
       if( e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Released )
       {
-        if( !_richTextBox.IsReadOnly )
+        if( !m_richTextBox.IsReadOnly )
         {
-          TextRange selectedText = new TextRange( _richTextBox.Selection.Start, _richTextBox.Selection.End );
+          TextRange selectedText = new TextRange( m_richTextBox.Selection.Start, m_richTextBox.Selection.End );
 #if !VS2008
           if( selectedText.Text.Length > 0 && !String.IsNullOrWhiteSpace( selectedText.Text ) )
-            ShowAdorner();
+          {
+            this.ShowAdorner();
+          }
 #else
-          if( selectedText.Text.Length > 0 && !String.IsNullOrEmpty( selectedText.Text ) )
-            ShowAdorner();
+      if (selectedText.Text.Length > 0 && !String.IsNullOrEmpty(selectedText.Text))
+      {
+        this.ShowAdorner();
+      }
 #endif
           else
-            HideAdorner();
-
+          {
+            {
+              this.HideAdorner();
+            }
+          }
           e.Handled = true;
         }
       }
-      else
-        HideAdorner();
     }
 
     private void OnPreviewMouseMoveParentWindow( object sender, MouseEventArgs e )
     {
-      Point p = e.GetPosition( _adorner );
+
+      Point p = e.GetPosition( m_adorner );
       double maxDist = 0d;
-      bool preventDisplayFadeOut = ( ( _adorner.Child != null ) && ( _adorner.Child is IRichTextBoxFormatBar ) ) ?
-                                  ( ( IRichTextBoxFormatBar )_adorner.Child ).PreventDisplayFadeOut :
-                                  false;
+      bool preventDisplayFadeOut = ( ( m_adorner.Child != null ) && ( m_adorner.Child is IRichTextBoxFormatBar ) )
+                                  ? ( ( IRichTextBoxFormatBar )m_adorner.Child ).PreventDisplayFadeOut
+                                  : false;
 
       //Mouse is inside FormatBar: Nothing to do.
+
       if( preventDisplayFadeOut ||
-        ( p.X >= 0 ) && ( p.X <= _adorner.ActualWidth ) && ( p.Y >= 0 ) && ( p.Y <= _adorner.ActualHeight ) )
+          ( p.X >= 0 ) && ( p.X <= m_adorner.ActualWidth ) && ( p.Y >= 0 ) && ( p.Y <= m_adorner.ActualHeight ) )
       {
         return;
       }
       //Mouse is too much outside FormatBar: Close it.
-      else if( ( p.X < -_hideAdornerDistance ) || ( p.X > _adorner.ActualWidth + _hideAdornerDistance ) || ( p.Y < -_hideAdornerDistance ) || ( p.Y > _adorner.ActualHeight + _hideAdornerDistance ) )
+      else if( ( p.X < -m_hideAdornerDistance ) || ( p.X > m_adorner.ActualWidth + m_hideAdornerDistance ) || ( p.Y < -m_hideAdornerDistance ) || ( p.Y > m_adorner.ActualHeight + m_hideAdornerDistance ) )
       {
-        HideAdorner();
+        this.HideAdorner();
       }
       //Mouse is just outside FormatBar: Vary its opacity.
       else
       {
         if( p.X < 0 )
           maxDist = -p.X;
-        else if( p.X > _adorner.ActualWidth )
-          maxDist = p.X - _adorner.ActualWidth;
+        else if( p.X > m_adorner.ActualWidth )
+          maxDist = p.X - m_adorner.ActualWidth;
 
         if( p.Y < 0 )
           maxDist = Math.Max( maxDist, -p.Y );
-        else if( p.Y > _adorner.ActualHeight )
-          maxDist = Math.Max( maxDist, p.Y - _adorner.ActualHeight );
+        else if( p.Y > m_adorner.ActualHeight )
+          maxDist = Math.Max( maxDist, p.Y - m_adorner.ActualHeight );
 
-        _adorner.Opacity = 1d - ( Math.Min( maxDist, 100d ) / 100d );
+        m_adorner.Opacity = 1d - ( Math.Min( maxDist, 100d ) / 100d );
       }
     }
 
@@ -140,60 +147,102 @@ namespace Xceed.Wpf.Toolkit
     {
       //This fixes the bug when applying text transformations the text would lose it's highlight. That was because the RichTextBox was losing focus,
       //so we just give it focus again and it seems to do the trick of re-highlighting it.
-      if( !_richTextBox.IsFocused && !_richTextBox.Selection.IsEmpty )
-        _richTextBox.Focus();
+      if( !m_richTextBox.IsFocused && !m_richTextBox.Selection.IsEmpty )
+        m_richTextBox.Focus();
     }
 
-    #endregion //Event Handlers
+    void RichTextBox_Loaded( object sender, RoutedEventArgs e )
+    {
+    }
+
+    void RichTextBox_GotFocus( object sender, RoutedEventArgs e )
+    {
+    }
+
+
+#endregion //Event Handlers
 
     #region Methods
 
+    private bool IsCursorInsideWord()
+    {
+      if( m_richTextBox?.Selection?.Start == null )
+        return false;
+
+      TextPointer caretPosition = m_richTextBox.Selection.Start;
+
+      string charBefore = caretPosition.GetTextInRun( LogicalDirection.Backward );
+      string charAfter = caretPosition.GetTextInRun( LogicalDirection.Forward );
+
+      bool hasWordCharBefore = !string.IsNullOrEmpty( charBefore ) &&
+                              charBefore.Length > 0 &&
+                              char.IsLetterOrDigit( charBefore[ charBefore.Length - 1 ] );
+
+      bool hasWordCharAfter = !string.IsNullOrEmpty( charAfter ) &&
+                             charAfter.Length > 0 &&
+                             char.IsLetterOrDigit( charAfter[ 0 ] );
+
+      return hasWordCharBefore || hasWordCharAfter;
+    }
+
+
     private void AttachFormatBarToRichtextBox( global::System.Windows.Controls.RichTextBox richTextBox, IRichTextBoxFormatBar formatBar )
     {
-      _richTextBox = richTextBox;
+      m_richTextBox = richTextBox;
       //we cannot use the PreviewMouseLeftButtonUp event because of selection bugs.
       //we cannot use the MouseLeftButtonUp event because it is handled by the RichTextBox and does not bubble up to here, so we must
       //add a hander to the MouseUpEvent using the Addhandler syntax, and specify to listen for handled events too.
-      _richTextBox.AddHandler( Mouse.MouseUpEvent, new MouseButtonEventHandler( RichTextBox_MouseButtonUp ), true );
-      _richTextBox.TextChanged += RichTextBox_TextChanged;
+      m_richTextBox.AddHandler( Mouse.MouseUpEvent, new MouseButtonEventHandler( this.RichTextBox_MouseButtonUp ), true );
+      m_richTextBox.TextChanged += this.RichTextBox_TextChanged;
+      m_richTextBox.Loaded += this.RichTextBox_Loaded;
+      m_richTextBox.GotFocus += this.RichTextBox_GotFocus;
+      m_adorner = new UIElementAdorner<Control>( m_richTextBox );
 
-      _adorner = new UIElementAdorner<Control>( _richTextBox );
+      formatBar.Target = m_richTextBox;
+      m_toolbar = formatBar;
 
-      formatBar.Target = _richTextBox;
-      _toolbar = formatBar;
+      {
+        this.HideAdorner();
+      }
     }
 
-    void ShowAdorner()
+
+    private void ShowAdorner()
     {
-      if( _adorner.Visibility == Visibility.Visible )
+      if( m_adorner.Visibility == Visibility.Visible )
       {
-        HideAdorner();
+        this.HideAdorner();
       }
 
-      VerifyAdornerLayer();
+      this.VerifyAdornerLayer();
 
-      Control adorningEditor = _toolbar as Control;
+      Control adorningEditor = m_toolbar as Control;
 
-      if( _adorner.Child == null )
-        _adorner.Child = adorningEditor;
+      if( m_adorner.Child == null )
+      {
+        m_adorner.Child = adorningEditor;
+      }
 
       adorningEditor.ApplyTemplate();
-      _toolbar.Update();
+      m_toolbar.Update();
 
-      _adorner.Visibility = Visibility.Visible;
+      m_adorner.Visibility = Visibility.Visible;
 
-      PositionFormatBar( adorningEditor );
-
-      _parentWindow = TreeHelper.FindParent<Window>( _adorner );
-      if( _parentWindow != null )
       {
-        Mouse.AddMouseMoveHandler( _parentWindow, OnPreviewMouseMoveParentWindow );
+        this.MousePositionFormatBar( adorningEditor );
+      }
+
+      m_parentWindow = TreeHelper.FindParent<Window>( m_adorner );
+      if( m_parentWindow != null
+        )
+      {
+        Mouse.AddMouseMoveHandler( m_parentWindow, this.OnPreviewMouseMoveParentWindow );
       }
     }
 
-    private void PositionFormatBar( Control adorningEditor )
+    private void MousePositionFormatBar( Control adorningEditor )
     {
-      Point mousePosition = Mouse.GetPosition( _richTextBox );
+      Point mousePosition = Mouse.GetPosition( m_richTextBox );
 
       var left = mousePosition.X;
       var top = mousePosition.Y;
@@ -211,42 +260,64 @@ namespace Xceed.Wpf.Toolkit
       }
 
       // Right boundary
-      if( left + adorningEditor.ActualWidth > _richTextBox.ActualWidth - 10d )
+      if( left + adorningEditor.ActualWidth > m_richTextBox.ActualWidth - 10d )
       {
-        left = _richTextBox.ActualWidth - adorningEditor.ActualWidth - 10d;
+        left = m_richTextBox.ActualWidth - adorningEditor.ActualWidth - 10d;
       }
 
       // Bottom boundary
-      if( top + adorningEditor.ActualHeight > _richTextBox.ActualHeight - 10d )
+      if( top + adorningEditor.ActualHeight > m_richTextBox.ActualHeight - 10d )
       {
-        top = _richTextBox.ActualHeight - adorningEditor.ActualHeight - 10d;
+        top = m_richTextBox.ActualHeight - adorningEditor.ActualHeight - 10d;
       }
 
-      _adorner.SetOffsets( left, top );
+      m_adorner.SetOffsets( left, top );
     }
 
-    bool VerifyAdornerLayer()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private bool VerifyAdornerLayer()
     {
-      if( _adorner.Parent != null )
+      if( m_adorner.Parent != null )
+      {
         return true;
+      }
 
-      AdornerLayer layer = AdornerLayer.GetAdornerLayer( _richTextBox );
+      AdornerLayer layer = AdornerLayer.GetAdornerLayer( m_richTextBox );
       if( layer == null )
+      {
         return false;
+      }
 
-      layer.Add( _adorner );
+      layer.Add( m_adorner );
       return true;
     }
 
-    void HideAdorner()
+    private void HideAdorner()
     {
-      if( IsAdornerVisible )
+
+      if( this.IsAdornerVisible )
       {
-        _adorner.Visibility = Visibility.Collapsed;
-        //_adorner.Child = null;
-        if( _parentWindow != null )
+        m_adorner.Visibility = Visibility.Collapsed;
+        if( m_parentWindow != null )
         {
-          Mouse.RemoveMouseMoveHandler( _parentWindow, OnPreviewMouseMoveParentWindow );
+          Mouse.RemoveMouseMoveHandler( m_parentWindow, this.OnPreviewMouseMoveParentWindow );
         }
       }
     }

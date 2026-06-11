@@ -51,6 +51,23 @@ namespace Xceed.Wpf.Toolkit
 
     #region Properties
 
+    #region AutoCloseCalendarOnTodayButton
+
+    public static readonly DependencyProperty AutoCloseCalendarOnTodayButtonProperty = DependencyProperty.Register( nameof( AutoCloseCalendarOnTodayButton ), typeof( bool ), typeof( DateTimePicker ), new UIPropertyMetadata( false ) );
+    public bool AutoCloseCalendarOnTodayButton
+    {
+      get
+      {
+        return ( bool )GetValue( AutoCloseCalendarOnTodayButtonProperty );
+      }
+      set
+      {
+        SetValue( AutoCloseCalendarOnTodayButtonProperty, value );
+      }
+    }
+
+    #endregion //AutoCloseCalendarOnToDayButton
+
     #region AutoCloseCalendar
 
     public static readonly DependencyProperty AutoCloseCalendarProperty = DependencyProperty.Register( "AutoCloseCalendar", typeof( bool ), typeof( DateTimePicker ), new UIPropertyMetadata( false ) );

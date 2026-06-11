@@ -18,7 +18,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
-                    xmlns:local="clr-namespace:Xceed.Wpf.Toolkit">
+                    xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core">
 
   <DataTemplate x:Key="DefaultWatermarkTemplate">
     <ContentControl Content="{Binding}"
@@ -88,6 +89,7 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     Background="{TemplateBinding Background}"
                     Grid.ColumnSpan="2"
+                    core:AppearanceProperties.OuterCornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}"
                     IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
         <ToggleButton.Style>
           <Style TargetType="{x:Type ToggleButton}">
@@ -106,6 +108,7 @@
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
                           SnapsToDevicePixels="True"
+                          CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius}"
                           Background="{Binding WatermarkBackground, RelativeSource={RelativeSource AncestorType={x:Type local:WatermarkComboBox}}, TargetNullValue={StaticResource DefaultWatermarkBackground}}">
                     <Border x:Name="splitBorder"
                             BorderBrush="Transparent"
@@ -320,6 +323,7 @@
       <Border x:Name="Border"
               Background="{Binding WatermarkBackground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultWatermarkBackground}}"
               Margin="{TemplateBinding BorderThickness}"
+              CornerRadius="{TemplateBinding CornerRadius}"
               Visibility="Collapsed">
         <TextBox x:Name="PART_EditableTextBox"
                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"

@@ -19,6 +19,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes"
                     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core"
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
                     xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -70,6 +71,7 @@
                 <chrome:ButtonChrome x:Name="ToggleButtonChrome"
                                      Background="{TemplateBinding Background}"
                                      Foreground="{TemplateBinding Foreground}"
+                                     CornerRadius="{TemplateBinding CornerRadius}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      RenderChecked="{TemplateBinding IsOpen}"

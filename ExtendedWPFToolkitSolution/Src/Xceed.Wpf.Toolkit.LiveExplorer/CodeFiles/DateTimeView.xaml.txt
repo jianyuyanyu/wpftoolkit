@@ -2,7 +2,7 @@
 
    Toolkit for WPF
 
-   Copyright (C) 2007-2025 Xceed Software Inc.
+   Copyright (C) 2007-2026 Xceed Software Inc.
 
    This program is provided to you under the terms of the XCEED SOFTWARE, INC.
    COMMUNITY LICENSE AGREEMENT (for non-commercial use) as published at 
@@ -332,6 +332,16 @@
                            Maximum="500"
                            Width="185"
                            Margin="5" />
+        <TextBlock Text="AutoCloseCalendarOnTodayButton:"
+                   Grid.Row="9"
+                   Grid.Column="2"
+                   VerticalAlignment="Center" />
+        <CheckBox x:Name="_autoCloseCalendarOnToDayButton"
+                  Grid.Row="9"
+                  Grid.Column="3"
+                  IsChecked="False"
+                  VerticalAlignment="Center"
+                  Margin="5" />
       </Grid>
     </GroupBox>
 
@@ -363,6 +373,7 @@
                            Kind="{Binding SelectedItem, ElementName=_kind}"
                            CalendarDisplayMode="{Binding SelectedItem, ElementName=_calendarDisplayMode}"
                            CalendarWidth="{Binding Value, ElementName=_calendarWidth}"
+                           AutoCloseCalendarOnTodayButton="{Binding IsChecked, ElementName=_autoCloseCalendarOnToDayButton}"
                            ShowDropDownButton="{Binding IsChecked, ElementName=_showDropDownButton}"
                            CurrentDateTimePart="{Binding SelectedItem, ElementName=_currentDateTimePart, Mode=TwoWay}"
                            AutoClipTimeParts="{Binding IsChecked, ElementName=_autoClipTimeParts}" />

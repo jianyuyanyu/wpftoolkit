@@ -372,7 +372,9 @@
     <Compile Include="Chart\Converters\BooleanToTimeSpanConverter.cs" />
     <Compile Include="Chart\Converters\InverseBooleanToDoubleConverter.cs" />
     <Compile Include="ColorPicker\Implementation\ColorPickerTabItem.cs" />
+    <Compile Include="Core\AppearanceProperties.cs" />
     <Compile Include="Core\Converters\ColorModeToTabItemSelectedConverter.cs" />
+    <Compile Include="Core\Converters\CornerRadiusReplacementConverter.cs" />
     <Compile Include="Core\Converters\PrintableFontFamilyConverter.cs" />
     <Compile Include="Core\Converters\TabItemSizeConverter.cs" />
     <Compile Include="Core\GenericTextBlock.cs" />
@@ -548,7 +550,6 @@
     <Compile Include="Magnifier\Implementation\MagnifierAdorner.cs" />
     <Compile Include="Magnifier\Implementation\MagnifierManager.cs" />
     <Compile Include="Primitives\InputBase.cs" />
-    <Compile Include="Obselete\MaskedTextBox\Implementation\MaskedTextBox.cs" />
     <Compile Include="MessageBox\Implementation\MessageBox.cs" />
     <Compile Include="NumericUpDown\Implementation\LongUpDown.cs">
       <SubType>Code</SubType>
@@ -644,7 +645,6 @@
     <Compile Include="TimePicker\Implementation\TimePicker.cs" />
     <Compile Include="TimeSpanUpDown\Implementation\TimeSpanUpDown.cs" />
     <Compile Include="Utils\Exceptions\ThrowException.cs" />
-    <Compile Include="Utils\Licensing\LicenseOrigin.cs" />
     <Compile Include="VisualStates.cs" />
     <Compile Include="MessageBox\Implementation\VisualStates.MessageBox.cs" />
     <Compile Include="WatermarkComboBox\Implementation\WatermarkComboBox.cs" />

@@ -15,10 +15,13 @@
 
   ***********************************************************************************/
 
+using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Xceed.Wpf.Toolkit.Primitives
 {
@@ -125,6 +128,21 @@ namespace Xceed.Wpf.Toolkit.Primitives
     }
 
     #endregion //IsSelectAllActive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #region SelectAllContent
 
@@ -237,6 +255,22 @@ namespace Xceed.Wpf.Toolkit.Primitives
       }
     }
 
+
+
+
+
+
+
+
+
+
+    #endregion
+
+    #region Protected Methods
+    protected override void OnItemsSourceChanged( IEnumerable oldValue, IEnumerable newValue )
+    {
+      base.OnItemsSourceChanged( oldValue, newValue );
+    }
     #endregion
   }
 }

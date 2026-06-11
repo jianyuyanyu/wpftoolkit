@@ -64,6 +64,8 @@
             Value="{DynamicResource {x:Static themes:ResourceKeys.ControlNormalBorderKey}}" />
     <Setter Property="BorderThickness"
             Value="1" />
+    <Setter Property="CornerRadius"
+            Value="1" />
     <Setter Property="Padding"
             Value="3" />
     <Setter Property="AllowDrop"
@@ -84,33 +86,36 @@
             <Border x:Name="Border"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     BorderBrush="{TemplateBinding BorderBrush}"
-                    CornerRadius="0"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                     Background="{TemplateBinding Background}">
               <Grid>
                 <ScrollViewer x:Name="PART_ContentHost"
                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                               InputScope="{TemplateBinding InputScope}">
                 </ScrollViewer>
-                <ContentPresenter x:Name="PART_WatermarkHost"
-                                  Content="{TemplateBinding Watermark}"
-                                  ContentTemplate="{Binding WatermarkTemplate, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultWatermarkTemplate}}"
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  IsHitTestVisible="False"
-                                  Margin="{TemplateBinding Padding}"
-                                  Visibility="Collapsed" />
+                <Grid Margin="2,0,0,0">
+                  <ContentPresenter x:Name="PART_WatermarkHost"
+                                    Content="{TemplateBinding Watermark}"
+                                    ContentTemplate="{Binding WatermarkTemplate, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={StaticResource DefaultWatermarkTemplate}}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    IsHitTestVisible="False"
+                                    Margin="{TemplateBinding Padding}"
+                                    Visibility="Collapsed" />
+                </Grid>
+
               </Grid>
             </Border>
             <Border x:Name="MouseOverVisual"
                     Opacity="0"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     BorderBrush="{StaticResource TextBox_MouseOver}"
-                    CornerRadius="1" />
+                    CornerRadius="{TemplateBinding CornerRadius}" />
             <Border x:Name="FocusVisual"
                     Opacity="0"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     BorderBrush="{StaticResource TextBox_Focused}"
-                    CornerRadius="1" />
+                    CornerRadius="{TemplateBinding CornerRadius}" />
 
           </Grid>
           <ControlTemplate.Triggers>

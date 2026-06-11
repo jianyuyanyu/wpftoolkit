@@ -2,7 +2,7 @@
 
    Toolkit for WPF
 
-   Copyright (C) 2007-2025 Xceed Software Inc.
+   Copyright (C) 2007-2026 Xceed Software Inc.
 
    This program is provided to you under the terms of the XCEED SOFTWARE, INC.
    COMMUNITY LICENSE AGREEMENT (for non-commercial use) as published at 
@@ -66,6 +66,8 @@
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="100" />
           </Grid.ColumnDefinitions>
 
           <TextBlock Grid.Row="0"
@@ -159,6 +161,43 @@
                    VerticalAlignment="Center"
                    Text="SelectAll"
                    IsEnabled="{Binding IsChecked, ElementName=_isSelectAllActive}"/>
+          <!--##EXCLUDE_OPEN_SOURCE-->
+          <TextBlock Grid.Row="3"
+                     Grid.Column="2"
+                     Text="IsFilterActive:"
+                     VerticalAlignment="Center"
+                     Margin="5" />
+          <CheckBox x:Name="_isFilterActive"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    ClickMode="Press"
+                    IsChecked="False" />          
+          <TextBlock Grid.Column="4"
+                     Text="FilterWatermark:"
+                     VerticalAlignment="Center"
+                     Margin="5" />
+          <TextBox x:Name="_filterWatermark"
+                   Grid.Column="5"
+                   Margin="5"
+                   VerticalAlignment="Center"
+                   Text="Filter"
+                   IsEnabled="{Binding IsChecked, ElementName=_isFilterActive}" />
+          <TextBlock Grid.Column="4"
+                     Grid.Row="1"
+                     Text="FilterText:"
+                     VerticalAlignment="Center"
+                     Margin="5" />
+          <TextBox x:Name="_filterText"
+                   Grid.Column="5"
+                   Grid.Row="1"
+                   Margin="5"
+                   VerticalAlignment="Center"
+                   Text=""
+                   IsEnabled="{Binding IsChecked, ElementName=_isFilterActive}" />
+          <!--##END-->
         </Grid>
       </GroupBox>
 
@@ -243,6 +282,7 @@
       <TextBlock Text="CheckListBox Usage:"
                  Margin="5,2,5,2"
                  Style="{StaticResource Header}" />
+      <!--##EXCLUDE_OPEN_SOURCE-->
       <xctk:CheckListBox x:Name="_checkListBox"
                          Grid.Column="0"
                          Grid.Row="1"
@@ -254,12 +294,30 @@
                          SelectedMemberPath="{Binding ElementName=_selectedMemberPath, Path=Text}"
                          DisplayMemberPath="{Binding ElementName=_displayMemberPath, Path=SelectedItem}"
                          IsSelectAllActive="{Binding ElementName=_isSelectAllActive, Path=IsChecked}"
-                         SelectAllContent="{Binding ElementName=_selectAllContent, Path=Text}"/>
-
+                         SelectAllContent="{Binding ElementName=_selectAllContent, Path=Text}"
+                         IsFilterActive="{Binding ElementName=_isFilterActive, Path=IsChecked}"
+                         FilterText="{Binding ElementName=_filterText, Path=Text, Mode=TwoWay}"
+                         FilterWatermark="{Binding ElementName=_filterWatermark, Path=Text}" />
+      <!--##END-->
+      <!--##INCLUDE_OPEN_SOURCE
+      <xctk:CheckListBox x:Name="_checkListBox"
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   Margin="5"
+                   VerticalAlignment="Stretch"
+                   ItemsSource="{Binding}"
+                   Delimiter="{Binding ElementName=_delimiter, Path=Text}"
+                   ValueMemberPath="{Binding ElementName=_valueMemberPath, Path=SelectedItem}"
+                   SelectedMemberPath="{Binding ElementName=_selectedMemberPath, Path=Text}"
+                   DisplayMemberPath="{Binding ElementName=_displayMemberPath, Path=SelectedItem}"
+                   IsSelectAllActive="{Binding ElementName=_isSelectAllActive, Path=IsChecked}"
+                   SelectAllContent="{Binding ElementName=_selectAllContent, Path=Text}" />
+      ##END-->
       <TextBlock Text="CheckComboBox Usage:"
                  Grid.Column="1"
                  Margin="5,2,5,2"
                  Style="{StaticResource Header}" />
+      <!--##EXCLUDE_OPEN_SOURCE-->
       <xctk:CheckComboBox Grid.Column="1"
                           x:Name="_checkComboBox"
                           Grid.Row="1"
@@ -277,7 +335,29 @@
                           MaxDropDownHeight="100" 
                           Watermark="Select items..."
                           WatermarkTemplate="{x:Null}"
-                          />
+                          IsFilterActive="{Binding ElementName=_isFilterActive, Path=IsChecked}"
+                          FilterText="{Binding ElementName=_filterText, Path=Text, Mode=TwoWay}"
+                          FilterWatermark="{Binding ElementName=_filterWatermark, Path=Text}" />
+      <!--##END-->
+      <!--##INCLUDE_OPEN_SOURCE
+      <xctk:CheckComboBox Grid.Column="1"
+                    x:Name="_checkComboBox"
+                    Grid.Row="1"
+                    Margin="5"
+                    VerticalAlignment="Top"
+                    ItemsSource="{Binding}"
+                    Delimiter="{Binding ElementName=_delimiter, Path=Text}"
+                    ValueMemberPath="{Binding ElementName=_valueMemberPath, Path=SelectedItem}"
+                    SelectedMemberPath="{Binding ElementName=_selectedMemberPath, Path=Text}"
+                    DisplayMemberPath="{Binding ElementName=_displayMemberPath, Path=SelectedItem}"
+                    IsSelectAllActive="{Binding ElementName=_isSelectAllActive, Path=IsChecked}"
+                    SelectAllContent="{Binding ElementName=_selectAllContent, Path=Text}"
+                    IsEditable="False"
+                    IsDropDownOpen="false"
+                    MaxDropDownHeight="100" 
+                    Watermark="Select items..."
+                    WatermarkTemplate="{x:Null}"/>
+      ##END-->
     </Grid>
   </Grid>
 </local:DemoView>

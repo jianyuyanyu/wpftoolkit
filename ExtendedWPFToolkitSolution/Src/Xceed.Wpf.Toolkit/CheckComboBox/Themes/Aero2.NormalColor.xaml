@@ -20,6 +20,7 @@
                     xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
                     xmlns:prim="clr-namespace:Xceed.Wpf.Toolkit.Primitives"
                     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core"
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes">
 
@@ -50,7 +51,7 @@
           <chrome:ButtonChrome x:Name="Chrome"
                                BorderBrush="{TemplateBinding BorderBrush}"
                                Background="{TemplateBinding Background}"
-                               CornerRadius="0"
+                               CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius}"
                                RenderEnabled="{TemplateBinding IsEnabled}"
                                RenderMouseOver="{Binding IsMouseOver, ElementName=PART_DropDownButton}"
                                RenderNormal="False"
@@ -206,6 +207,7 @@
             </Popup>
 
             <Border  Background="{TemplateBinding Background}"
+                     CornerRadius="{TemplateBinding CornerRadius}"
                      BorderBrush="{TemplateBinding BorderBrush}"
                      BorderThickness="{TemplateBinding BorderThickness}" />
             <ToggleButton x:Name="PART_DropDownButton"
@@ -218,7 +220,8 @@
                           Padding="{TemplateBinding Padding}"
                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          IsHitTestVisible="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolConverter}}">
+                          IsHitTestVisible="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolConverter}}"
+                          core:AppearanceProperties.OuterCornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}}">
             </ToggleButton>
             <ContentPresenter x:Name="WatermarkHost"
                           Content="{TemplateBinding Watermark}"

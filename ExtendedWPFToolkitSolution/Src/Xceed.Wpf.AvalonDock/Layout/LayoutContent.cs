@@ -69,7 +69,9 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
     private static void OnTitlePropertyChanged( DependencyObject obj, DependencyPropertyChangedEventArgs args )
     {
-      ( ( LayoutContent )obj ).RaisePropertyChanged( LayoutContent.TitleProperty.Name );
+      var lc = ( LayoutContent )obj;
+      lc.RaisePropertyChanged( LayoutContent.TitleProperty.Name );
+      lc.UpdateFloatingWindowTaskbarTitle();
     }
 
     #endregion //Title
@@ -1035,25 +1037,30 @@ namespace Xceed.Wpf.AvalonDock.Layout
     {
       if( !newValue ) // LayoutContent is being deselected
       {
-        // Check if LayoutContent is inside a FloatingWindowControl
-        // And set the correct title for Taskbar Title
-        var root = this.Root;
+        this.UpdateFloatingWindowTaskbarTitle();
+      }
+    }
 
-        if( (root != null) && (root.Manager != null) )
+    private void UpdateFloatingWindowTaskbarTitle()
+    {
+      // Check if LayoutContent is inside a FloatingWindowControl
+      // And set the correct title for Taskbar Title
+      var root = this.Root;
+
+      if( (root != null) && (root.Manager != null) )
+      {
+        var lfwc = root.Manager.FloatingWindows;
+        var containedFloatingWindowControl = lfwc.FirstOrDefault( f => (f.Model != null) && f.Model.Descendents().OfType<LayoutContent>().Where( l => l.ContentId == this.ContentId ).FirstOrDefault() != null );
+
+        if( containedFloatingWindowControl != null )
         {
-          var lfwc = root.Manager.FloatingWindows;
-          var containedFloatingWindowControl = lfwc.FirstOrDefault( f => (f.Model != null) && f.Model.Descendents().OfType<LayoutContent>().Where( l => l.ContentId == this.ContentId ).FirstOrDefault() != null );
+          var selectedLayoutContent = containedFloatingWindowControl.Model.Descendents().OfType<LayoutContent>().Where( l => l.IsSelected ).FirstOrDefault();
 
-          if( containedFloatingWindowControl != null )
+          if( selectedLayoutContent != null )
           {
-            var selectedLayoutContent = containedFloatingWindowControl.Model.Descendents().OfType<LayoutContent>().Where( l => l.IsSelected ).FirstOrDefault();
-
-            if( selectedLayoutContent != null )
+            if( containedFloatingWindowControl.Title != selectedLayoutContent.Title )
             {
-              if( containedFloatingWindowControl.Title != selectedLayoutContent.Title )
-              {
-                containedFloatingWindowControl.Title = selectedLayoutContent.Title;
-              }
+              containedFloatingWindowControl.Title = selectedLayoutContent.Title;
             }
           }
         }

@@ -657,6 +657,35 @@ namespace Xceed.Wpf.Toolkit
 
     #endregion //UsingAlphaChannel
 
+    #region CornerRadius
+
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register( nameof( CornerRadius ), typeof( CornerRadius ), typeof( ColorPicker ), new FrameworkPropertyMetadata( new CornerRadius(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback( OnCornerRadiusPropertyChanged ) ) );
+    public CornerRadius CornerRadius
+    {
+      get
+      {
+        return ( CornerRadius )GetValue( CornerRadiusProperty );
+      }
+      set
+      {
+        SetValue( CornerRadiusProperty, value );
+      }
+    }
+
+    private static void OnCornerRadiusPropertyChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+    {
+      ColorPicker colorPicker = ( ColorPicker )d;
+      if( colorPicker != null )
+        colorPicker.OnCornerRadiusChanged();
+    }
+
+    protected virtual void OnCornerRadiusChanged()
+    {
+    }
+
+    #endregion //CornerRadius
+
+
     #endregion //Properties
 
     #region Constructors

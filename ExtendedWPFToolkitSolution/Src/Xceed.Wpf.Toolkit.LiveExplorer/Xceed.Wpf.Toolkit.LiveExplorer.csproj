@@ -95,6 +95,18 @@
     <Reference Include="Xceed.Wpf.AvalonDock.dll">
       <HintPath>..\Xceed.Wpf.AvalonDock\bin\$(Configuration)\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid.Toolkit.Themes.Metro.dll">
+      <HintPath>..\Xceed.Wpf.DataGrid.Themes.Metro\bin\$(Configuration)\Xceed.Wpf.DataGrid.Toolkit.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid.Toolkit.Themes.Office2007.dll">
+      <HintPath>..\Xceed.Wpf.DataGrid.Themes.Office2007\bin\$(Configuration)\Xceed.Wpf.DataGrid.Toolkit.Themes.Office2007.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid.Toolkit.Themes.Windows10.dll">
+      <HintPath>..\Xceed.Wpf.DataGrid.Themes.Windows10\bin\$(Configuration)\Xceed.Wpf.DataGrid.Toolkit.Themes.Windows10.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid.Toolkit.dll">
+      <HintPath>..\Xceed.Wpf.DataGrid\bin\$(Configuration)\Xceed.Wpf.DataGrid.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit.dll">
       <HintPath>..\Xceed.Wpf.Toolkit\bin\$(Configuration)\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>

@@ -78,6 +78,23 @@ namespace Xceed.Wpf.Toolkit
 
     #endregion //WatermarkBackground
 
+    #region CornerRadius
+
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register( nameof( CornerRadius ), typeof( CornerRadius ), typeof( WatermarkComboBox ), new UIPropertyMetadata( new CornerRadius() ) );
+    public CornerRadius CornerRadius
+    {
+      get
+      {
+        return ( CornerRadius )GetValue( CornerRadiusProperty );
+      }
+      set
+      {
+        SetValue( CornerRadiusProperty, value );
+      }
+    }
+
+    #endregion //CornerRadius
+
     #endregion //Properties
 
     #region Constructors

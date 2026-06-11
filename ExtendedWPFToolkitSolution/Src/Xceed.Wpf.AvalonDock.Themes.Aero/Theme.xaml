@@ -47,6 +47,97 @@
     <avalonDockControls:LayoutAnchorableControl Model="{Binding}" />
   </DataTemplate>
 
+  <Style x:Key="AeroToolBarButtonStyle"
+         TargetType="Button">
+    <Setter Property="FocusVisualStyle"
+            Value="{x:Null}" />
+    <Setter Property="Background"
+            Value="Transparent" />
+    <Setter Property="BorderBrush"
+            Value="Transparent" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="Padding"
+            Value="2" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Bd"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+              <Setter TargetName="Bd"
+                      Property="Background"
+                      Value="{DynamicResource ToolBarButtonHoverBackground}" />
+            </Trigger>
+            <Trigger Property="IsPressed"
+                     Value="True">
+              <Setter TargetName="Bd"
+                      Property="Background"
+                      Value="{DynamicResource ToolBarButtonPressedBackground}" />
+            </Trigger>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+              <Setter Property="Opacity"
+                      Value="0.5" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="AeroToolBarDropDownButtonStyle"
+         TargetType="ToggleButton">
+    <Setter Property="FocusVisualStyle"
+            Value="{x:Null}" />
+    <Setter Property="Background"
+            Value="Transparent" />
+    <Setter Property="BorderBrush"
+            Value="Transparent" />
+    <Setter Property="BorderThickness"
+            Value="1" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ToggleButton">
+          <Border x:Name="Bd"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked"
+                     Value="True">
+              <Setter TargetName="Bd"
+                      Property="Background"
+                      Value="{DynamicResource ToolBarButtonCheckedBackground}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+              <Setter TargetName="Bd"
+                      Property="Background"
+                      Value="{DynamicResource ToolBarButtonHoverBackground}" />
+            </Trigger>
+            <Trigger Property="IsPressed"
+                     Value="True">
+              <Setter TargetName="Bd"
+                      Property="Background"
+                      Value="{DynamicResource ToolBarButtonPressedBackground}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
   <!--DocumentPaneControlStyle-->
   <Style x:Key="AvalonDock_ThemeAero_DocumentPaneControlStyle"
          TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
@@ -83,7 +174,7 @@
                                                        KeyboardNavigation.TabIndex="1"
                                                        KeyboardNavigation.DirectionalNavigation="Cycle"/>
               <avalonDockControls:DropDownButton x:Name="MenuDropDownButton"
-                                                 Style="{DynamicResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                                 Style="{StaticResource AeroToolBarDropDownButtonStyle}"
                                                  Focusable="False"
                                                  VerticalAlignment="Center"
                                                  Grid.Column="1">
@@ -473,7 +564,7 @@
 
               <avalonDockControls:DropDownButton x:Name="MenuDropDownButton"
                                                  VerticalAlignment="Center"
-                                                 Style="{DynamicResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                                 Style="{StaticResource AeroToolBarDropDownButtonStyle}"
                                                  Focusable="False"
                                                  Grid.Column="1"
                                                  Padding="-1"
@@ -489,7 +580,7 @@
                       Grid.Column="2"
                       Focusable="False"
                       Padding="-1"
-                      Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                      Style="{StaticResource AeroToolBarButtonStyle}"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center"
                       Command="{Binding Path=LayoutItem.AutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}"
@@ -503,7 +594,7 @@
                       Grid.Column="3"
                       Focusable="False"
                       Padding="-1"
-                      Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                      Style="{StaticResource AeroToolBarButtonStyle}"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center"
                       Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}"
@@ -1181,7 +1272,7 @@
                                   ContentTemplateSelector="{Binding Root.Manager.DocumentHeaderTemplateSelector, Mode=OneWay}" />
                 <!-- Close button should be moved out to the container style -->
                 <Button x:Name="DocumentCloseButton"
-                        Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                        Style="{StaticResource AeroToolBarButtonStyle}"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Grid.Column="2"
@@ -1355,7 +1446,7 @@
 
                       <avalonDockControls:DropDownButton x:Name="ContextMenuDropdownButton"
                                                          shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                                                         Style="{DynamicResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                                         Style="{StaticResource AeroToolBarDropDownButtonStyle}"
                                                          Focusable="False"
                                                          Grid.Column="1"
                                                          VerticalAlignment="Center"
@@ -1376,7 +1467,7 @@
                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
                               Focusable="False"
                               Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                              Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                              Style="{StaticResource AeroToolBarButtonStyle}"
                               Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
                               CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                               ToolTip="{x:Static avalonDockProperties:Resources.Window_Maximize}"
@@ -1391,7 +1482,7 @@
                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
                               Focusable="False"
                               Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                              Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                              Style="{StaticResource AeroToolBarButtonStyle}"
                               Command="{x:Static shell:SystemCommands.RestoreWindowCommand}"
                               CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                               ToolTip="{x:Static avalonDockProperties:Resources.Window_Restore}"
@@ -1405,7 +1496,7 @@
                       <Button x:Name="PART_PinClose"
                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
                               Focusable="False"
-                              Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                              Style="{StaticResource AeroToolBarButtonStyle}"
                               Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                               Command="{Binding Path=RootDocumentLayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                               ToolTip="{x:Static avalonDockProperties:Resources.Document_Close}"
@@ -1539,7 +1630,7 @@
                       <avalonDockControls:DropDownButton x:Name="SinglePaneContextMenu"
                                                          shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                                          Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                         Style="{DynamicResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                                         Style="{StaticResource AeroToolBarDropDownButtonStyle}"
                                                          Focusable="False"
                                                          Grid.Column="1"
                                                          VerticalAlignment="Center"
@@ -1560,7 +1651,7 @@
                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
                               Focusable="False"
                               Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}"
-                              Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                              Style="{StaticResource AeroToolBarButtonStyle}"
                               VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               VerticalContentAlignment="Center"
@@ -1579,7 +1670,7 @@
                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
                               Focusable="False"
                               Visibility="{Binding IsMaximized, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                              Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                              Style="{StaticResource AeroToolBarButtonStyle}"
                               VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               Command="{x:Static shell:SystemCommands.RestoreWindowCommand}"
@@ -1595,7 +1686,7 @@
                       <Button x:Name="PART_PinClose"
                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
                               Focusable="False"
-                              Style="{DynamicResource {x:Static ToolBar.ButtonStyleKey}}"
+                              Style="{StaticResource AeroToolBarButtonStyle}"
                               VerticalAlignment="Center"
                               HorizontalAlignment="Center"
                               Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"

@@ -189,6 +189,10 @@ namespace Xceed.Wpf.Toolkit
 
       var date = string.Join( cultureInfo.DateTimeFormat.DateSeparator, dateParts.Select( x => x.Value ).ToArray() );
       var time = string.Join( cultureInfo.DateTimeFormat.TimeSeparator, timeParts );
+      while( millisecondsPart.Length < 3 )
+      {
+        millisecondsPart = "0" + millisecondsPart;
+      }
       time += "." + millisecondsPart; 
 
       return String.Format( "{0} {1} {2}", date, time, designator );

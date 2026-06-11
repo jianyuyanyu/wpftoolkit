@@ -27,6 +27,35 @@ namespace Xceed.Wpf.Toolkit.Primitives
   {
     #region Properties
 
+    #region CornerRadius
+
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register( nameof(CornerRadius), typeof( CornerRadius ), typeof( InputBase ), new UIPropertyMetadata( new CornerRadius(), OnCornerRadiusPropertyChanged ) );
+    public CornerRadius CornerRadius
+    {
+      get
+      {
+        return ( CornerRadius )GetValue( CornerRadiusProperty );
+      }
+      set
+      {
+        SetValue( CornerRadiusProperty, value );
+      }
+    }
+
+    private static void OnCornerRadiusPropertyChanged( DependencyObject o, DependencyPropertyChangedEventArgs e )
+    {
+      InputBase inputBase = o as InputBase;
+      if( inputBase != null )
+        inputBase.OnCornerRadiusChanged( ( CornerRadius )e.OldValue, ( CornerRadius )e.NewValue );
+    }
+
+    protected virtual void OnCornerRadiusChanged( CornerRadius oldValue, CornerRadius newValue )
+    {
+    }
+
+    #endregion //CornerRadius
+
+
     #region AllowTextInput
 
     public static readonly DependencyProperty AllowTextInputProperty = DependencyProperty.Register( "AllowTextInput", typeof( bool ), typeof( InputBase ), new UIPropertyMetadata( true, OnAllowTextInputChanged ) );

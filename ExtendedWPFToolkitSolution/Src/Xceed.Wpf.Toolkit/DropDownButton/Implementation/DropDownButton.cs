@@ -247,6 +247,36 @@ namespace Xceed.Wpf.Toolkit
 
     #endregion
 
+    #region CornerRadius
+
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register( nameof( CornerRadius ), typeof( CornerRadius )
+      , typeof( DropDownButton ), new UIPropertyMetadata( new CornerRadius(), OnCornerRadiusPropertiesChanged ) );
+    public CornerRadius CornerRadius
+    {
+      get
+      {
+        return ( CornerRadius )GetValue( CornerRadiusProperty );
+      }
+      set
+      {
+        SetValue( MaxDropDownHeightProperty, value );
+      }
+    }
+
+    private static void OnCornerRadiusPropertiesChanged( DependencyObject o, DependencyPropertyChangedEventArgs e )
+    {
+      var dropDownButton = o as DropDownButton;
+      if( dropDownButton != null )
+        dropDownButton.OnCornerRadiusChanged( ( CornerRadius )e.OldValue, ( CornerRadius )e.NewValue );
+    }
+
+    protected virtual void OnCornerRadiusChanged( CornerRadius oldValue, CornerRadius newValue )
+    {
+    }
+
+    #endregion
+
+
     #endregion //Properties
 
     #region Base Class Overrides

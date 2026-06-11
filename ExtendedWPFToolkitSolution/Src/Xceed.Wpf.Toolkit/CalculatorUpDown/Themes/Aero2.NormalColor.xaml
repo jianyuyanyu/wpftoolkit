@@ -20,6 +20,7 @@
                     xmlns:local="clr-namespace:Xceed.Wpf.Toolkit"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes"
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core"
                     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
@@ -44,7 +45,7 @@
         <ControlTemplate TargetType="ToggleButton">
           <Grid SnapsToDevicePixels="True">
             <chrome:ButtonChrome x:Name="ToggleButtonChrome"
-                                 CornerRadius="0"
+                                 CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius}"
                                  RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CalculatorUpDown}}"
                                  RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CalculatorUpDown}}"
                                  RenderMouseOver="{TemplateBinding IsMouseOver}"
@@ -88,6 +89,8 @@
             Value="Right" />
     <Setter Property="TextAlignment"
             Value="Right" />
+    <Setter Property="CornerRadius"
+            Value="0" />
     <Setter Property="WatermarkTemplate"
             Value="{StaticResource DefaultWatermarkTemplate}" />
     <Setter Property="ButtonSpinnerUpContentTemplate"
@@ -127,7 +130,8 @@
                                    SpinnerUpDisabledContentTemplate="{TemplateBinding ButtonSpinnerUpDisabledContentTemplate}"
                                    SpinnerDownDisabledContentTemplate="{TemplateBinding ButtonSpinnerDownDisabledContentTemplate}"
                                    VerticalContentAlignment="Stretch"
-                                   HorizontalAlignment="Stretch">
+                                   HorizontalAlignment="Stretch"
+                                   CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius, Converter={conv:CornerRadiusReplacementConverter Auto, 0, 0, Auto}}">
                 <local:WatermarkTextBox x:Name="PART_TextBox"
                                         BorderThickness="0"
                                         Background="{TemplateBinding Background}"
@@ -143,6 +147,7 @@
                                         IsTabStop="True"
                                         MinWidth="20"
                                         AcceptsReturn="False"
+                                        CornerRadius="{TemplateBinding CornerRadius, Converter={conv:CornerRadiusReplacementConverter Auto,0,0,Auto}}"
                                         Padding="{TemplateBinding Padding}"
                                         AutoSelectBehavior="{TemplateBinding AutoSelectBehavior}"
                                         AutoMoveFocus="{TemplateBinding AutoMoveFocus}"
@@ -155,6 +160,7 @@
               </local:ButtonSpinner>
               <ToggleButton x:Name="_calculatorToggleButton"
                             Grid.Column="1"
+                            core:AppearanceProperties.OuterCornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius, Converter={conv:CornerRadiusReplacementConverter 0, Auto, Auto, 0}}"
                             Width="{Binding DropDownButtonWidth, RelativeSource={RelativeSource TemplatedParent}}"
                             Height="{Binding DropDownButtonHeight, RelativeSource={RelativeSource TemplatedParent}}"                            
                             Focusable="False"

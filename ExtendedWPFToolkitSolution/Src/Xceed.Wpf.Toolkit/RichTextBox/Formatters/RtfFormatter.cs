@@ -31,7 +31,7 @@ namespace Xceed.Wpf.Toolkit
       using( MemoryStream ms = new MemoryStream() )
       {
         tr.Save( ms, DataFormats.Rtf );
-        return ASCIIEncoding.Default.GetString( ms.ToArray() );
+        return UTF8Encoding.Default.GetString( ms.ToArray() );
       }
     }
 
@@ -48,7 +48,7 @@ namespace Xceed.Wpf.Toolkit
         else
         {
           TextRange tr = new TextRange( document.ContentStart, document.ContentEnd );
-          using( MemoryStream ms = new MemoryStream( Encoding.ASCII.GetBytes( text ) ) )
+          using( MemoryStream ms = new MemoryStream( Encoding.UTF8.GetBytes( text ) ) )
           {
             tr.Load( ms, DataFormats.Rtf );
           }

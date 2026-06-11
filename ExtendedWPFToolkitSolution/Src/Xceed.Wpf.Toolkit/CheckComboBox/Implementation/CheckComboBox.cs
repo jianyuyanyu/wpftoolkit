@@ -142,7 +142,7 @@ namespace Xceed.Wpf.Toolkit
       if( newValue )
       {
         _initialValue.Clear();
-        foreach( object o in SelectedItems )
+        foreach( object o in this.SelectedItems )
         {
           _initialValue.Add( o );
         }
@@ -150,6 +150,8 @@ namespace Xceed.Wpf.Toolkit
       }
       else
       {
+        // Clear the filter when closing the dropdown
+
         _initialValue.Clear();
         base.RaiseEvent( new RoutedEventArgs( CheckComboBox.ClosedEvent, this ) );
       }
@@ -221,6 +223,35 @@ namespace Xceed.Wpf.Toolkit
     }
 
     #endregion //Watermark Template
+
+    #region CornerRadius
+
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register( nameof( CornerRadius ), typeof( CornerRadius ), typeof( CheckComboBox ), new UIPropertyMetadata( new CornerRadius(), OnCornerRadiusPropertyChanged ) );
+    public CornerRadius CornerRadius
+    {
+      get
+      {
+        return ( CornerRadius )GetValue( CornerRadiusProperty );
+      }
+      set
+      {
+        SetValue( CornerRadiusProperty, value );
+      }
+    }
+
+    private static void OnCornerRadiusPropertyChanged( DependencyObject o, DependencyPropertyChangedEventArgs e )
+    {
+      CheckComboBox comboBox = o as CheckComboBox;
+      if( comboBox != null )
+        comboBox.OnCornerRadiusChanged( ( CornerRadius )e.OldValue, ( CornerRadius )e.NewValue );
+    }
+
+    protected virtual void OnCornerRadiusChanged( CornerRadius oldValue, CornerRadius newValue )
+    {
+    }
+
+    #endregion //CornerRadius
+
 
     #endregion //Properties
 

@@ -21,6 +21,7 @@
                     xmlns:themes="clr-namespace:Xceed.Wpf.Toolkit.Themes"
                     xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes"
                     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters"
+                    xmlns:core="clr-namespace:Xceed.Wpf.Toolkit.Core"
                     xmlns:dateConv="clr-namespace:Xceed.Wpf.Toolkit.Converters"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
@@ -72,7 +73,7 @@
         <ControlTemplate TargetType="ToggleButton">
           <Grid SnapsToDevicePixels="True">
             <chrome:ButtonChrome x:Name="ToggleButtonChrome"
-                                 CornerRadius="0,2.75,2.75,0"
+                                 CornerRadius="{TemplateBinding core:AppearanceProperties.OuterCornerRadius}"
                                  RenderChecked="{Binding IsOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:DateTimePicker}}"
                                  RenderEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:DateTimePicker}}"
                                  RenderMouseOver="{TemplateBinding IsMouseOver}"
@@ -122,6 +123,8 @@
             Value="{StaticResource DefaultWatermarkTemplate}" />
     <Setter Property="CalendarWidth"
             Value="178" />
+    <Setter Property="CornerRadius"
+            Value="2.75" />
     <Setter Property="ButtonSpinnerUpContentTemplate"
             Value="{StaticResource IncreaseGlyphNormalKey}" />
     <Setter Property="ButtonSpinnerDownContentTemplate"
@@ -160,7 +163,8 @@
                                      VerticalContentAlignment="Stretch"
                                      AllowSpin="{TemplateBinding AllowSpin}"
                                      ShowSpinner="{TemplateBinding ShowButtonSpinner}"
-                                     ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}">
+                                     ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
+                                     CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius, Converter={conv:CornerRadiusReplacementConverter Auto, 0, 0, Auto}}">
                   <local:WatermarkTextBox x:Name="PART_TextBox"
                                           BorderThickness="0"
                                           Background="Transparent"
@@ -188,6 +192,7 @@
                 </local:ButtonSpinner>
                 <ToggleButton x:Name="_calendarToggleButton"
                               Grid.Column="1"
+                              core:AppearanceProperties.OuterCornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius, Converter={conv:CornerRadiusReplacementConverter 0, Auto, Auto, 0}}"
                               Width="{Binding DropDownButtonWidth, RelativeSource={RelativeSource TemplatedParent}}"
                               Height="{Binding DropDownButtonHeight, RelativeSource={RelativeSource TemplatedParent}}"
                               Background="White"
@@ -262,6 +267,12 @@
             </Grid>
           </Border>
           <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=ShowDropDownButton}"
+                         Value="False">
+              <Setter TargetName="PART_Spinner"
+                      Property="CornerRadius"
+                      Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CornerRadius}" />
+            </DataTrigger>
             <MultiDataTrigger>
               <MultiDataTrigger.Conditions>
                 <Condition Binding="{Binding IsReadOnly, RelativeSource={RelativeSource Self}}"
